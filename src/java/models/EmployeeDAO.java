@@ -18,7 +18,7 @@ public class EmployeeDAO extends DBContext {
                 Date dob = result.getDate("dob");
                 Boolean gender = result.getBoolean("gender");
 
-                Employee employee = new Employee(id, name, gender, dob, null);
+                Employee employee = new Employee(id, name, gender, dob);
                 employees.add(employee);
             }
 
@@ -27,6 +27,32 @@ public class EmployeeDAO extends DBContext {
             System.out.println(e);
         }
         return null;
+    }
+
+    public void insert(Employee x) {
+        String xSql = "insert into Employee (id,name,dob,gender) values (?,?,?,?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(xSql);
+            ps.setInt(1, x.getId());
+            ps.setString(2, x.getName());
+            ps.setDate(3, (Date) x.getDob());
+            ps.setBoolean(4, x.getGender());
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete() {
+        String sql = "DELETE FROM Employee";
+        try {
+            PreparedStatement connect = connection.prepareCall(sql);
+            connect.executeQuery();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
 }

@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import models.Employee;
 import models.EmployeeDAO;
@@ -36,19 +38,35 @@ public class Lab2ServLet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        StudentDAO studentDAO = new StudentDAO();
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        Employee_SkillDAO employee_SkillDAO = new Employee_SkillDAO();
+
+        List<Student> students = studentDAO.getAllStudent();
+        List<Student> ss = new ArrayList<>();
+
+        List<Employee> employees = employeeDAO.getAllEmployee();
+        List<Employee_Skill> employee_Skills = employee_SkillDAO.getAllEmployee_Skill();
+
         String btn = request.getParameter("Button");
-        if (btn.equalsIgnoreCase("A")) {
-            out.print("A");
+        String kw = request.getParameter("keyword");
 
+        if (btn.equalsIgnoreCase("Search")) {
+            for (Student s : students) {
+                if (s.getName().contains(kw)) {
+                    ss.add(s);
+                }
+            }
+        } else if (btn.equalsIgnoreCase("A")) {
+            employee_SkillDAO.delete();
+            employeeDAO.delete();
         } else if (btn.equalsIgnoreCase("B")) {
-            out.print("B");
-
-        } else if (btn.equalsIgnoreCase("C")) {
-            out.print("C");
-
+            employeeDAO.insert(new Employee(7, "Hoa", true, java.sql.Date.valueOf("2000-02-22")));
+            employee_SkillDAO.insert(7, 1);
+            employee_SkillDAO.insert(7, 3);
+            employee_SkillDAO.insert(7, 4);
         } else if (btn.equalsIgnoreCase("D")) {
             out.print("D");
-
         } else if (btn.equalsIgnoreCase("E")) {
             out.print("E");
 
@@ -60,18 +78,10 @@ public class Lab2ServLet extends HttpServlet {
             out.print("Calculate");
         }
 
-        StudentDAO studentDAO = new StudentDAO();
-        EmployeeDAO employeeDAO = new EmployeeDAO();
-        Employee_SkillDAO employee_SkillDAO = new Employee_SkillDAO();
-
-        List<Student> students = studentDAO.getAllStudent();
-        List<Employee> employees = employeeDAO.getAllEmployee();
-        List<Employee_Skill> employee_Skills = employee_SkillDAO.getAllEmployee_Skill();
-
-        request.setAttribute("students", students);
+        request.setAttribute("students", ss);
         request.setAttribute("employees", employees);
         request.setAttribute("employee_Skills", employee_Skills);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("lab2.jsp").forward(request, response);
     }
 
 }

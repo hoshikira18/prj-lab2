@@ -14,12 +14,11 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String name, boolean gender, Date Dob, List<Skill> skills) {
+    public Employee(int id, String name, boolean gender, Date Dob) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.Dob = Dob;
-        this.skills = skills;
     }
 
     public int getId() {
@@ -54,17 +53,9 @@ public class Employee {
         this.Dob = Dob;
     }
 
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
-    }
-
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", name=" + name + ", gender=" + gender + ", Dob=" + Dob + ", skills=" + skills + '}';
+        return "Employee{" + "id=" + id + ", name=" + name + ", gender=" + gender + ", Dob=" + Dob + ", skills=" + '}';
     }
 
 }

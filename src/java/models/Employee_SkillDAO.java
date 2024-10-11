@@ -28,4 +28,27 @@ public class Employee_SkillDAO extends DBContext {
         }
         return null;
     }
+
+    public void delete() {
+        String sql = "DELETE FROM Employee_skill";
+        try {
+            PreparedStatement connect = connection.prepareCall(sql);
+            connect.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void insert(int xEid, int xSid) {
+        String xSql = "insert into Employee_Skill (eid,sid) values (?,?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(xSql);
+            ps.setInt(1, xEid);
+            ps.setInt(2, xSid);
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
